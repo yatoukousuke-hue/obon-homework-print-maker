@@ -1,0 +1,15 @@
+.next/
+node_modules/
+.vercel/
+
+.env
+.env.*
+!.env.example
+
+.codex/
+.agents/
+work/
+outputs/
+.codex-vercel-hostname-patch.cjs
+
+*.log
