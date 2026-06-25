@@ -24,12 +24,7 @@ function Choice<T extends string>({
   return (
     <div className="choices">
       {items.map((item) => (
-        <button
-          type="button"
-          onClick={() => onChange(item)}
-          className={`choice ${value === item ? 'selected' : ''}`}
-          key={item}
-        >
+        <button type="button" onClick={() => onChange(item)} className={`choice ${value === item ? 'selected' : ''}`} key={item}>
           {item}
         </button>
       ))}
@@ -51,12 +46,7 @@ function NumberChoice({
   return (
     <div className="choices">
       {items.map((item) => (
-        <button
-          type="button"
-          onClick={() => onChange(item)}
-          className={`choice ${value === item ? 'selected' : ''}`}
-          key={item}
-        >
+        <button type="button" onClick={() => onChange(item)} className={`choice ${value === item ? 'selected' : ''}`} key={item}>
           {item}
           {suffix}
         </button>
@@ -78,10 +68,7 @@ export function WorksheetMaker() {
   const [worksheet, setWorksheet] = useState<Worksheet | null>(null)
   const [error, setError] = useState('')
 
-  const currentUnits = useMemo(
-    () => units.filter((unit) => unit.grade === grade && unit.subject === subject),
-    [grade, subject],
-  )
+  const currentUnits = useMemo(() => units.filter((unit) => unit.grade === grade && unit.subject === subject), [grade, subject])
   const canAdvance = purpose === '先取り'
   const totalQuestions = Number(volume.replace('問/日', '')) * days
 
@@ -153,9 +140,7 @@ export function WorksheetMaker() {
             <br />
             その子に合わせて作成
           </h1>
-          <p>
-            学年・教科・日数・単元を選ぶだけ。計算、文章題、応用問題まで、お盆休みに取り組みやすい日別プリントを作成します。
-          </p>
+          <p>学年・教科・日数・単元を選ぶだけ。計算、筆算、文章題、応用問題まで、お盆休みに取り組みやすい日別プリントを作成します。</p>
         </section>
 
         <section className="card">
@@ -208,11 +193,7 @@ export function WorksheetMaker() {
             <div className="grid">
               <div>
                 <label className="label">難易度</label>
-                <Choice
-                  items={['やさしい', '標準', 'チャレンジ'] as Difficulty[]}
-                  value={difficulty}
-                  onChange={setDifficulty}
-                />
+                <Choice items={['やさしい', '標準', 'チャレンジ'] as Difficulty[]} value={difficulty} onChange={setDifficulty} />
               </div>
               <div>
                 <label className="label">目的</label>
@@ -222,14 +203,8 @@ export function WorksheetMaker() {
             {subject === '算数' && (
               <div className="purposeBlock">
                 <label className="label">算数の出題タイプ</label>
-                <Choice
-                  items={['基礎中心', '文章題ミックス', '応用多め'] as ProblemStyle[]}
-                  value={problemStyle}
-                  onChange={setProblemStyle}
-                />
-                <p className="hint miniHint">
-                  「文章題ミックス」は計算2問に対して文章題1問程度、「応用多め」は文章題・買い物問題などを多めに入れます。
-                </p>
+                <Choice items={['基礎中心', '文章題ミックス', '応用多め'] as ProblemStyle[]} value={problemStyle} onChange={setProblemStyle} />
+                <p className="hint miniHint">「わり算の筆算」を選んだ場合は、筆算が必要な2〜3桁の割り算を出します。</p>
               </div>
             )}
           </div>
@@ -265,13 +240,7 @@ export function WorksheetMaker() {
 
           <div className="section">
             <label className="label">備考（任意）</label>
-            <textarea
-              className="field"
-              rows={3}
-              value={notes}
-              onChange={(event) => setNotes(event.target.value)}
-              placeholder="例：文章題を多めにしたい、計算スピードを上げたい"
-            />
+            <textarea className="field" rows={3} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="例：筆算を多めにしたい、文章題も入れたい" />
             <p className="footerNote">個人情報保護のため、生徒名・電話番号・住所・学校名などは入力しないでください。</p>
           </div>
 
@@ -287,24 +256,14 @@ export function WorksheetMaker() {
   )
 }
 
-function Preview({
-  worksheet,
-  grade,
-  subject,
-  onBack,
-}: {
-  worksheet: Worksheet
-  grade: number
-  subject: Subject
-  onBack: () => void
-}) {
+function Preview({ worksheet, grade, subject, onBack }: { worksheet: Worksheet; grade: number; subject: Subject; onBack: () => void }) {
   return (
     <section id="preview">
       <div className="previewHead noPrint">
         <div>
           <div className="eyebrow">プレビュー</div>
           <h1>日別プリントができました</h1>
-          <p className="hint">1日1枚で印刷できます。印刷画面から「PDFに保存」を選べます。</p>
+          <p className="hint">スマホでは左右にスクロールして紙面を確認できます。印刷画面から「PDFに保存」を選べます。</p>
         </div>
         <div className="actions">
           <button className="secondary" onClick={onBack}>
@@ -316,82 +275,84 @@ function Preview({
         </div>
       </div>
 
-      <article className="paper worksheetPaper">
-        {worksheet.pages.map((page, pageIndex) => (
-          <section className={`dayPage ${pageIndex > 0 ? 'pageBreak' : ''}`} key={page.day}>
-            <div className="paperRibbon">お盆休み がんばりミッション</div>
-            <div className="paperTitle">
-              <span className="paperBadge">
-                小{grade}・{subject}・{page.title}
-              </span>
-              <h2>{worksheet.title}</h2>
-              <p>{worksheet.summary}</p>
-            </div>
+      <div className="paperScroller">
+        <article className="paper worksheetPaper">
+          {worksheet.pages.map((page, pageIndex) => (
+            <section className={`dayPage ${pageIndex > 0 ? 'pageBreak' : ''}`} key={page.day}>
+              <div className="paperRibbon">お盆休み がんばりミッション</div>
+              <div className="paperTitle">
+                <span className="paperBadge">
+                  小{grade}・{subject}・{page.title}
+                </span>
+                <h2>{worksheet.title}</h2>
+                <p>{worksheet.summary}</p>
+              </div>
 
-            <div className="studentBar">
-              <span>なまえ：</span>
-              <span className="writeLine" />
-              <span>日にち：</span>
-              <span className="dateBoxes">　月　日</span>
-            </div>
+              <div className="studentBar">
+                <span>なまえ：</span>
+                <span className="writeLine" />
+                <span>日にち：</span>
+                <span className="dateBoxes">　月　日</span>
+              </div>
 
-            <div className="missionBox">
-              <strong>⭐ 今日のミッション：{page.problems.length}問を最後までやりきろう！</strong>
-              <span>{worksheet.mission}</span>
-            </div>
+              <div className="missionBox">
+                <strong>⭐ 今日のミッション：{page.problems.length}問を最後までやりきろう！</strong>
+                <span>{worksheet.mission}</span>
+              </div>
 
-            {worksheet.passage && pageIndex === 0 && (
-              <section className="passageBox">
-                <h3>文章を読んで答えましょう</h3>
-                <p>{worksheet.passage}</p>
-              </section>
-            )}
+              {worksheet.passage && pageIndex === 0 && (
+                <section className="passageBox">
+                  <h3>文章を読んで答えましょう</h3>
+                  <p>{worksheet.passage}</p>
+                </section>
+              )}
 
-            <div className="problemList">
-              {page.problems.map((problem, index) => (
-                <div className="problemCard" key={`${page.day}-${problem.question}-${index}`}>
-                  <div className="problemTop">
-                    <b>
-                      もんだい {index + 1}
-                      {problem.kind ? <span className="kindBadge">{problem.kind}</span> : null}
-                    </b>
-                    <span className="checkStar">☆</span>
+              <div className="problemList">
+                {page.problems.map((problem, index) => (
+                  <div className="problemCard" key={`${page.day}-${problem.question}-${index}`}>
+                    <div className="problemTop">
+                      <b>
+                        もんだい {index + 1}
+                        {problem.kind ? <span className="kindBadge">{problem.kind}</span> : null}
+                      </b>
+                      <span className="checkStar">☆</span>
+                    </div>
+                    <p>{problem.question}</p>
+                    <div className="answerArea">
+                      <span>答え</span>
+                    </div>
                   </div>
-                  <p>{problem.question}</p>
-                  <div className="answerArea">
-                    <span>答え</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <div className="encourageBox">
-              <span>できた数：</span>
-              <span className="miniLine" /> / {page.problems.length}問
-              <span>　今日の気分：</span>
-              <span className="emoji">😊 😐 😵</span>
-            </div>
-          </section>
-        ))}
-
-        <div className="answerPage">
-          <div className="answerHeader">
-            <span className="paperBadge">先生・保護者用</span>
-            <h2>答え</h2>
-          </div>
-          {worksheet.pages.map((page) => (
-            <section className="answerDay" key={`answer-${page.day}`}>
-              <h3>{page.title}</h3>
-              {page.problems.map((problem, index) => (
-                <div className="answerCard" key={`${page.day}-${problem.answer}-${index}`}>
-                  <b>{index + 1}.</b> {problem.answer}
-                  {problem.explanation && <small>{problem.explanation}</small>}
-                </div>
-              ))}
+              <div className="encourageBox">
+                <span>できた数：</span>
+                <span className="miniLine" /> / {page.problems.length}問
+                <span>　今日の気分：</span>
+                <span className="emoji">😊 😐 😵</span>
+              </div>
             </section>
           ))}
-        </div>
-      </article>
+
+          <div className="answerPage">
+            <div className="answerHeader">
+              <span className="paperBadge">先生・保護者用</span>
+              <h2>答え</h2>
+            </div>
+            {worksheet.pages.map((page) => (
+              <section className="answerDay" key={`answer-${page.day}`}>
+                <h3>{page.title}</h3>
+                {page.problems.map((problem, index) => (
+                  <div className="answerCard" key={`${page.day}-${problem.answer}-${index}`}>
+                    <b>{index + 1}.</b> {problem.answer}
+                    {problem.explanation && <small>{problem.explanation}</small>}
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
+        </article>
+      </div>
     </section>
   )
 }

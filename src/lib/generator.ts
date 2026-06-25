@@ -8,9 +8,29 @@ const questionsPerDay = {
   '20問/日': 20,
 }
 
+function divisionWrittenProblem(difficulty: string): Problem {
+  const easy = difficulty === 'やさしい'
+  const hard = difficulty === 'チャレンジ'
+  const divisor = hard ? randomInt(11, 24) : randomInt(3, 9)
+  const quotient = easy ? randomInt(12, 48) : randomInt(23, hard ? 96 : 72)
+  const remainder = hard ? randomInt(1, divisor - 1) : randomInt(0, divisor - 1)
+  const dividend = divisor * quotient + remainder
+
+  return {
+    kind: '筆算',
+    question: `${dividend} ÷ ${divisor} を筆算で計算しましょう。${remainder ? 'あまりも書きましょう。' : ''}`,
+    answer: remainder ? `${quotient} あまり ${remainder}` : `${quotient}`,
+    explanation: `${divisor} × ${quotient}${remainder ? ` + ${remainder}` : ''} = ${dividend}`,
+  }
+}
+
 function mathCalculation(unit: string, difficulty: string): Problem {
   const easy = difficulty === 'やさしい'
   const hard = difficulty === 'チャレンジ'
+
+  if (unit.includes('わり算の筆算')) {
+    return divisionWrittenProblem(difficulty)
+  }
 
   if (unit.includes('わり算')) {
     const divisor = randomInt(2, easy ? 5 : 12)
@@ -19,11 +39,9 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     const dividend = divisor * quotient + remainder
     return {
       kind: '計算',
-      question: remainder
-        ? `${dividend} ÷ ${divisor} を、あまりも書いて計算しましょう。`
-        : `${dividend} ÷ ${divisor} を計算しましょう。`,
+      question: remainder ? `${dividend} ÷ ${divisor} を計算しましょう。あまりも書きましょう。` : `${dividend} ÷ ${divisor} を計算しましょう。`,
       answer: remainder ? `${quotient} あまり ${remainder}` : `${quotient}`,
-      explanation: `${divisor} × ${quotient}${remainder ? ` + ${remainder}` : ''} = ${dividend} です。`,
+      explanation: `${divisor} × ${quotient}${remainder ? ` + ${remainder}` : ''} = ${dividend}`,
     }
   }
 
@@ -169,21 +187,9 @@ function japaneseProblem(unit: string, index: number): Problem {
       answer: 'はつらつ、いきいき など',
       explanation: '様子を表すことばを考えます。',
     },
-    {
-      kind: '語句',
-      question: '「明るい」の反対の意味に近いことばを書きましょう。',
-      answer: '暗い',
-    },
-    {
-      kind: '語句',
-      question: '「協力」の読み方をひらがなで書きましょう。',
-      answer: 'きょうりょく',
-    },
-    {
-      kind: '読解',
-      question: '次の文に合うことばを選びましょう。「空が（　）ので、外で遊びました。」',
-      answer: '晴れた',
-    },
+    { kind: '語句', question: '「明るい」の反対の意味に近いことばを書きましょう。', answer: '暗い' },
+    { kind: '語句', question: '「協力」の読み方をひらがなで書きましょう。', answer: 'きょうりょく' },
+    { kind: '読解', question: '次の文に合うことばを選びましょう。「空が（　）ので、外で遊びました。」', answer: '晴れた' },
     {
       kind: '語句',
       question: `${unit}に関係することばを、思いつくものから二つ書きましょう。`,
@@ -197,9 +203,7 @@ function japaneseProblem(unit: string, index: number): Problem {
 
 export function generateWorksheet(request: RequestData): Worksheet {
   const perDay = questionsPerDay[request.volume]
-  const selectedUnits = request.selectedUnits.length
-    ? request.selectedUnits
-    : [request.subject === '算数' ? '計算練習' : '語彙']
+  const selectedUnits = request.selectedUnits.length ? request.selectedUnits : [request.subject === '算数' ? '計算練習' : '語彙']
 
   const pages = Array.from({ length: request.days }, (_, pageIndex) => {
     const problems = Array.from({ length: perDay }, (_, problemIndex) => {
@@ -210,20 +214,14 @@ export function generateWorksheet(request: RequestData): Worksheet {
         : japaneseProblem(unit, globalIndex)
     })
 
-    return {
-      day: pageIndex + 1,
-      title: `${pageIndex + 1}日目`,
-      problems,
-    }
+    return { day: pageIndex + 1, title: `${pageIndex + 1}日目`, problems }
   })
 
   const problems = pages.flatMap((page) => page.problems)
 
   const worksheet: Worksheet = {
     title: `小${request.grade} ${request.subject} お盆休みチャレンジプリント`,
-    summary: `${request.days}日分 / ${request.volume} / ${request.difficulty}${
-      request.subject === '算数' ? ` / ${request.problemStyle}` : ''
-    }`,
+    summary: `${request.days}日分 / ${request.volume} / ${request.difficulty}${request.subject === '算数' ? ` / ${request.problemStyle}` : ''}`,
     mission: `${request.days}日間で${problems.length}問。${selectedUnits.join('・')}を、毎日少しずつやりきろう！`,
     pages,
     problems,
