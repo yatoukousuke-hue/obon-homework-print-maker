@@ -9,6 +9,8 @@ type Stored = {
   subject: string
   difficulty: string
   volume: string
+  days?: number
+  problemStyle?: string
   purpose: string
   selectedUnits: string[]
   notes: string
@@ -84,7 +86,8 @@ export default function Admin() {
                     <td>
                       小{item.grade} / {item.subject}
                       <br />
-                      {item.difficulty}・{item.volume}
+                      {item.days ?? 1}日分・{item.volume}・{item.difficulty}
+                      {item.problemStyle ? `・${item.problemStyle}` : ''}
                     </td>
                     <td>{item.selectedUnits.join('、')}</td>
                     <td>

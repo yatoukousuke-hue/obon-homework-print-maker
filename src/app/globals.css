@@ -232,6 +232,21 @@ a {
   color: #64748b;
 }
 
+.volumePreview {
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: #fff7d6;
+  border: 2px solid #ffd166;
+  color: #715200;
+  font-weight: 900;
+}
+
+.miniHint {
+  margin-top: 10px;
+}
+
 .primary {
   border: 0;
   background: linear-gradient(135deg, #12345b, #1677b8);
@@ -357,6 +372,16 @@ a {
   font-weight: 800;
 }
 
+.dayPage {
+  position: relative;
+  z-index: 1;
+}
+
+.pageBreak {
+  page-break-before: always;
+  padding-top: 30px;
+}
+
 .paperBadge {
   display: inline-block;
   background: var(--mint);
@@ -462,6 +487,17 @@ a {
   font-weight: 900;
 }
 
+.kindBadge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eef7ff;
+  color: #426783;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
 .checkStar {
   color: var(--orange);
   font-size: 24px;
@@ -530,6 +566,16 @@ a {
   display: block;
   color: #5a7190;
   margin-top: 2px;
+}
+
+.answerDay {
+  page-break-inside: avoid;
+  margin-bottom: 14px;
+}
+
+.answerDay h3 {
+  margin: 18px 0 4px;
+  color: var(--navy);
 }
 
 .adminHeader {
@@ -651,15 +697,44 @@ a {
   }
 
   .problemCard {
-    padding: 10px 14px;
+    padding: 7px 11px;
+    border-radius: 13px;
   }
 
   .problemCard p {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.45;
+    margin: 5px 0 7px;
   }
 
   .answerArea {
-    min-height: 38px;
+    min-height: 26px;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .problemList {
+    gap: 7px;
+  }
+
+  .paperTitle {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+
+  .paperTitle h2 {
+    font-size: 22px;
+  }
+
+  .studentBar,
+  .missionBox,
+  .encourageBox {
+    margin: 10px 0;
+  }
+
+  .missionBox,
+  .encourageBox {
+    padding: 8px 10px;
   }
 
   .printOnly {

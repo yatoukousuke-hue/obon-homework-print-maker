@@ -11,7 +11,7 @@ const rounded = M_PLUS_Rounded_1c({
 
 export const metadata: Metadata = {
   title: 'お盆休み 宿題プリントメーカー',
-  description: '小学生向けの家庭学習プリントを作成できます。',
+  description: '小学生向けの家庭学習プリントを日別に作成できます。',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
