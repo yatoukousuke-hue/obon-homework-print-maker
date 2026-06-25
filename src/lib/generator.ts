@@ -18,9 +18,35 @@ function divisionWrittenProblem(difficulty: string): Problem {
 
   return {
     kind: '筆算',
+    workspace: 'vertical',
     question: `${dividend} ÷ ${divisor} を筆算で計算しましょう。${remainder ? 'あまりも書きましょう。' : ''}`,
     answer: remainder ? `${quotient} あまり ${remainder}` : `${quotient}`,
     explanation: `${divisor} × ${quotient}${remainder ? ` + ${remainder}` : ''} = ${dividend}`,
+  }
+}
+
+function angleProblem(difficulty: string, index: number): Problem {
+  const hard = difficulty === 'チャレンジ'
+  const base = hard ? randomInt(35, 145) : randomInt(25, 120)
+  const second = hard ? randomInt(15, 75) : randomInt(10, 50)
+
+  if (index % 2 === 0) {
+    const total = base + second
+    return {
+      kind: '応用',
+      workspace: 'diagram',
+      question: `2つの角を合わせると ${total}° です。1つの角が ${base}° のとき、もう1つの角は何度ですか。図にメモして考えましょう。`,
+      answer: `${second}°`,
+      explanation: `${total} - ${base} = ${second}`,
+    }
+  }
+
+  return {
+    kind: '応用',
+    workspace: 'diagram',
+    question: `まっすぐな線の角度は180°です。片方の角が ${base}° のとき、となりの角は何度ですか。`,
+    answer: `${180 - base}°`,
+    explanation: `180 - ${base} = ${180 - base}`,
   }
 }
 
@@ -32,6 +58,10 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     return divisionWrittenProblem(difficulty)
   }
 
+  if (unit.includes('角度')) {
+    return angleProblem(difficulty, randomInt(1, 1000))
+  }
+
   if (unit.includes('わり算')) {
     const divisor = randomInt(2, easy ? 5 : 12)
     const quotient = randomInt(2, hard ? 25 : 12)
@@ -39,6 +69,7 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     const dividend = divisor * quotient + remainder
     return {
       kind: '計算',
+      workspace: 'line',
       question: remainder ? `${dividend} ÷ ${divisor} を計算しましょう。あまりも書きましょう。` : `${dividend} ÷ ${divisor} を計算しましょう。`,
       answer: remainder ? `${quotient} あまり ${remainder}` : `${quotient}`,
       explanation: `${divisor} × ${quotient}${remainder ? ` + ${remainder}` : ''} = ${dividend}`,
@@ -50,6 +81,7 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     const b = randomInt(2, hard ? 18 : 12)
     return {
       kind: '計算',
+      workspace: 'grid',
       question: `${a} × ${b} を計算しましょう。`,
       answer: `${a * b}`,
       explanation: `${a}を${b}こ分あわせます。`,
@@ -62,6 +94,7 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     const b = randomInt(1, denominator - 1)
     return {
       kind: '計算',
+      workspace: 'line',
       question: `${a}/${denominator} + ${b}/${denominator} を計算しましょう。`,
       answer: `${a + b}/${denominator}`,
       explanation: '分母が同じなので、分子どうしをたします。',
@@ -73,6 +106,7 @@ function mathCalculation(unit: string, difficulty: string): Problem {
     const b = randomInt(11, hard ? 149 : 49) / 10
     return {
       kind: '計算',
+      workspace: 'grid',
       question: `${a.toFixed(1)} + ${b.toFixed(1)} を計算しましょう。`,
       answer: `${(a + b).toFixed(1)}`,
       explanation: '小数点の位置をそろえて計算します。',
@@ -86,6 +120,7 @@ function mathCalculation(unit: string, difficulty: string): Problem {
   const right = operator === '-' ? Math.min(a, b) : b
   return {
     kind: '計算',
+    workspace: 'grid',
     question: `${left} ${operator} ${right} を計算しましょう。`,
     answer: `${operator === '+' ? left + right : left - right}`,
     explanation: '位をそろえて、ていねいに計算しましょう。',
@@ -95,12 +130,17 @@ function mathCalculation(unit: string, difficulty: string): Problem {
 function mathWordProblem(unit: string, difficulty: string): Problem {
   const hard = difficulty === 'チャレンジ'
 
+  if (unit.includes('角度')) {
+    return angleProblem(difficulty, randomInt(1, 1000))
+  }
+
   if (unit.includes('わり算')) {
     const perBox = randomInt(3, hard ? 9 : 6)
     const boxes = randomInt(4, hard ? 16 : 9)
     const total = perBox * boxes
     return {
       kind: '文章題',
+      workspace: 'sentence',
       question: `あめが${total}こあります。1ふくろに${perBox}こずつ入れると、何ふくろできますか。`,
       answer: `${boxes}ふくろ`,
       explanation: `${total} ÷ ${perBox} = ${boxes}`,
@@ -112,6 +152,7 @@ function mathWordProblem(unit: string, difficulty: string): Problem {
     const cols = randomInt(4, hard ? 15 : 9)
     return {
       kind: '文章題',
+      workspace: 'sentence',
       question: `カードを横に${cols}まい、たてに${rows}列ならべます。カードは全部で何まいですか。`,
       answer: `${rows * cols}まい`,
       explanation: `${cols} × ${rows} = ${rows * cols}`,
@@ -125,6 +166,7 @@ function mathWordProblem(unit: string, difficulty: string): Problem {
     const endMin = minutes % 60
     return {
       kind: '文章題',
+      workspace: 'sentence',
       question: `${start}時に勉強を始めて、${minutes}分間取り組みました。終わった時こくは何時何分ですか。`,
       answer: `${endHour}時${endMin}分`,
       explanation: '60分で1時間くり上がります。',
@@ -135,6 +177,7 @@ function mathWordProblem(unit: string, difficulty: string): Problem {
   const second = randomInt(9, hard ? 120 : 50)
   return {
     kind: '文章題',
+    workspace: 'sentence',
     question: `昨日は${first}ページ、今日は${second}ページ読みました。2日間で何ページ読みましたか。`,
     answer: `${first + second}ページ`,
     explanation: `${first} + ${second} = ${first + second}`,
@@ -147,11 +190,20 @@ function mathChallengeProblem(unit: string, difficulty: string): Problem {
   const count = randomInt(3, hard ? 12 : 7)
   const paid = Math.ceil((price * count + randomInt(20, 160)) / 100) * 100
 
+  if (unit.includes('角度')) {
+    return angleProblem(difficulty, randomInt(1, 1000))
+  }
+
+  if (unit.includes('わり算の筆算')) {
+    return divisionWrittenProblem(difficulty)
+  }
+
   if (unit.includes('小数') || unit.includes('分数')) {
     const a = randomInt(12, 48) / 10
     const b = randomInt(11, 39) / 10
     return {
       kind: '応用',
+      workspace: 'sentence',
       question: `${a.toFixed(1)}mのリボンと${b.toFixed(1)}mのリボンをつなげました。全体の長さは何mですか。式も考えましょう。`,
       answer: `${(a + b).toFixed(1)}m`,
       explanation: `${a.toFixed(1)} + ${b.toFixed(1)} = ${(a + b).toFixed(1)}`,
@@ -160,6 +212,7 @@ function mathChallengeProblem(unit: string, difficulty: string): Problem {
 
   return {
     kind: '応用',
+    workspace: 'sentence',
     question: `1こ${price}円のノートを${count}こ買い、${paid}円出しました。おつりはいくらですか。`,
     answer: `${paid - price * count}円`,
     explanation: `${price} × ${count} = ${price * count}、${paid} - ${price * count} = ${paid - price * count}`,

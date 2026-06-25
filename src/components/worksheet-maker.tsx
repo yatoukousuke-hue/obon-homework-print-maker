@@ -318,9 +318,7 @@ function Preview({ worksheet, grade, subject, onBack }: { worksheet: Worksheet; 
                       <span className="checkStar">☆</span>
                     </div>
                     <p>{problem.question}</p>
-                    <div className="answerArea">
-                      <span>答え</span>
-                    </div>
+                    <ProblemWorkspace workspace={problem.workspace} />
                   </div>
                 ))}
               </div>
@@ -354,5 +352,53 @@ function Preview({ worksheet, grade, subject, onBack }: { worksheet: Worksheet; 
         </article>
       </div>
     </section>
+  )
+}
+
+function ProblemWorkspace({ workspace }: { workspace?: Worksheet['problems'][number]['workspace'] }) {
+  if (workspace === 'vertical') {
+    return (
+      <div className="workArea verticalWork">
+        <span>筆算スペース</span>
+        <div className="verticalGrid" />
+        <div className="answerStrip">答え：</div>
+      </div>
+    )
+  }
+
+  if (workspace === 'diagram') {
+    return (
+      <div className="workArea diagramWork">
+        <span>図・角度メモ</span>
+        <div className="angleGuide" />
+        <div className="answerStrip">答え：</div>
+      </div>
+    )
+  }
+
+  if (workspace === 'sentence') {
+    return (
+      <div className="workArea sentenceWork">
+        <span>式・考え方</span>
+        <div className="thinkingLines" />
+        <div className="answerStrip">答え：</div>
+      </div>
+    )
+  }
+
+  if (workspace === 'grid') {
+    return (
+      <div className="workArea gridWork">
+        <span>計算スペース</span>
+        <div className="calcGrid" />
+        <div className="answerStrip">答え：</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="workArea lineWork">
+      <span>答え</span>
+    </div>
   )
 }

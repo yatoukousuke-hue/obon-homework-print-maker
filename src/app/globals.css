@@ -530,6 +530,68 @@ a {
   font-weight: 900;
 }
 
+.workArea {
+  border: 2px dashed #a9bdd1;
+  border-radius: 14px;
+  background: #fff;
+  padding: 8px 10px;
+  color: #7890a8;
+  font-weight: 900;
+  page-break-inside: avoid;
+}
+
+.workArea > span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.lineWork {
+  min-height: 42px;
+  background: repeating-linear-gradient(0deg, #fff, #fff 21px, #eef5fb 22px);
+}
+
+.calcGrid,
+.verticalGrid {
+  min-height: 82px;
+  border-radius: 10px;
+  background-image:
+    linear-gradient(#e6eef6 1px, transparent 1px),
+    linear-gradient(90deg, #e6eef6 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.verticalGrid {
+  min-height: 112px;
+}
+
+.diagramWork {
+  min-height: 128px;
+}
+
+.angleGuide {
+  min-height: 88px;
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, transparent 49%, #d8e4ef 50%, transparent 51%),
+    linear-gradient(0deg, transparent 68%, #d8e4ef 69%, transparent 70%),
+    radial-gradient(circle at 26% 68%, transparent 0 30px, #f6fbff 31px),
+    #fbfdff;
+}
+
+.thinkingLines {
+  min-height: 82px;
+  border-radius: 10px;
+  background: repeating-linear-gradient(0deg, #fff, #fff 23px, #e6eef6 24px);
+}
+
+.answerStrip {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 2px solid #d8e4ef;
+  color: #536b85;
+}
+
 .encourageBox {
   display: flex;
   flex-wrap: wrap;
@@ -738,6 +800,40 @@ a {
     min-height: 26px;
     border-radius: 10px;
     background: #fff;
+  }
+
+  .workArea {
+    padding: 5px 8px;
+    border-radius: 10px;
+  }
+
+  .workArea > span {
+    margin-bottom: 3px;
+    font-size: 10px;
+  }
+
+  .calcGrid,
+  .thinkingLines {
+    min-height: 34px;
+    background-size: 14px 14px;
+  }
+
+  .verticalGrid {
+    min-height: 52px;
+    background-size: 14px 14px;
+  }
+
+  .diagramWork {
+    min-height: 62px;
+  }
+
+  .angleGuide {
+    min-height: 42px;
+  }
+
+  .answerStrip {
+    margin-top: 4px;
+    padding-top: 3px;
   }
 
   .problemList {

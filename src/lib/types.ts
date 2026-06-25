@@ -34,6 +34,7 @@ export type Problem = {
   answer: string
   explanation?: string
   kind?: '計算' | '筆算' | '文章題' | '応用' | '語句' | '読解'
+  workspace?: 'line' | 'grid' | 'vertical' | 'diagram' | 'sentence'
 }
 
 export type WorksheetPage = {
