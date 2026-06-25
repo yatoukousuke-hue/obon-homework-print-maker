@@ -1,4 +1,54 @@
 'use client'
-import { useState } from 'react'
+
 import { useRouter } from 'next/navigation'
-export default function Login(){const [email,setEmail]=useState('');const [pass,setPass]=useState('');const [error,setError]=useState('');const router=useRouter();function login(e:React.FormEvent){e.preventDefault();if(email==='admin@example.com'&&pass==='obon2026'){localStorage.setItem('obon-admin','true');router.push('/admin')}else setError('メールアドレスまたはパスワードが違います。')}return <><header className="topbar"><div className="topinner"><a className="brand" href="/">お盆休み 宿題プリントメーカー</a></div></header><main className="shell"><form className="card login" onSubmit={login}><div className="eyebrow">管理者用</div><h1 style={{color:'var(--navy)'}}>ログイン</h1><p className="hint">MVPデモ用：admin@example.com / obon2026</p><label className="label">メールアドレス</label><input className="field" type="email" value={email} onChange={e=>setEmail(e.target.value)} required/><div style={{height:15}}/><label className="label">パスワード</label><input className="field" type="password" value={pass} onChange={e=>setPass(e.target.value)} required/>{error&&<p className="error">{error}</p>}<div className="actions"><button className="primary">ログイン</button></div></form></main></>}
+import { useState } from 'react'
+
+export default function Login() {
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('')
+  const [error, setError] = useState('')
+  const router = useRouter()
+
+  function login(event: React.FormEvent) {
+    event.preventDefault()
+    if (email === 'admin@example.com' && pass === 'obon2026') {
+      localStorage.setItem('obon-admin', 'true')
+      router.push('/admin')
+    } else {
+      setError('メールアドレスまたはパスワードが違います。')
+    }
+  }
+
+  return (
+    <>
+      <header className="topbar">
+        <div className="topinner">
+          <a className="brand" href="/">
+            お盆休み 宿題プリントメーカー
+          </a>
+        </div>
+      </header>
+
+      <main className="shell">
+        <form className="card login" onSubmit={login}>
+          <div className="eyebrow">管理者用</div>
+          <h1 style={{ color: 'var(--navy)' }}>ログイン</h1>
+          <p className="hint">MVPデモ用：admin@example.com / obon2026</p>
+
+          <label className="label">メールアドレス</label>
+          <input className="field" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+
+          <div style={{ height: 15 }} />
+
+          <label className="label">パスワード</label>
+          <input className="field" type="password" value={pass} onChange={(event) => setPass(event.target.value)} required />
+
+          {error && <p className="error">{error}</p>}
+          <div className="actions">
+            <button className="primary">ログイン</button>
+          </div>
+        </form>
+      </main>
+    </>
+  )
+}
